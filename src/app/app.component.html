@@ -1,0 +1,118 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#home" aria-label="PhonePe home">
+      <span class="brand-mark"><span></span><span></span><span></span></span>
+      <span class="brand-name">PhonePe</span>
+    </a>
+
+    <div class="side-label">MENU</div>
+    <nav class="side-nav" aria-label="Main navigation">
+      @for (item of navigation; track item.label) {
+        <button class="nav-item" [class.selected]="activeTab === item.label" (click)="selectTab(item.label)">
+          <span class="nav-icon">{{ item.icon }}</span><span>{{ item.label }}</span>
+          @if (item.label === 'Rewards') { <span class="new-pill">NEW</span> }
+        </button>
+      }
+    </nav>
+
+    <div class="sidebar-promo">
+      <div class="promo-spark">✦</div>
+      <p class="promo-title">Good things<br>come to those who<br><span>pay on PhonePe.</span></p>
+      <p class="promo-caption">Unlock rewards on everyday payments.</p>
+      <button class="promo-link" (click)="selectTab('Rewards')">Explore rewards <span>↗</span></button>
+      <div class="promo-orbit orbit-one"></div><div class="promo-orbit orbit-two"></div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="help-icon">?</div><div><strong>Need a hand?</strong><span>We’re here to help</span></div><span class="footer-arrow">↗</span>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div class="mobile-brand"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">PhonePe</span></div>
+      <div class="greeting"><span class="eyebrow">FRIDAY, 30 OCTOBER 2026</span><h1>Good morning, Tejendra <span class="wave">✦</span></h1></div>
+      <div class="top-actions">
+        <label class="search-box"><span class="search-icon">⌕</span><input [(ngModel)]="search" aria-label="Search transactions" placeholder="Search anything..."><kbd>⌘ K</kbd></label>
+        <button class="icon-button notification" aria-label="Notifications" (click)="showToast('You’re all caught up!')"><span>♧</span><i></i></button>
+        <button class="profile-button" aria-label="Open profile" (click)="selectTab('Profile')"><span class="avatar">R</span><span class="profile-copy"><strong>Riya Mehta</strong><small>Personal account</small></span><span class="chevron">⌄</span></button>
+      </div>
+    </header>
+
+    <section class="welcome-strip">
+      <div class="welcome-copy"><span class="welcome-spark">✳</span><div><strong>Your money, moving at your pace.</strong><p>Everything you need for a smarter money day.</p></div></div>
+      <button (click)="openAction('View your insights')">View your insights <span>↗</span></button>
+      <div class="strip-shape shape-a"></div><div class="strip-shape shape-b"></div>
+    </section>
+
+    <section class="quick-section">
+      <div class="section-heading"><div><span class="eyebrow">MADE FOR YOU</span><h2>Quick actions</h2></div><button class="text-button" (click)="openAction('All services')">All services <span>↗</span></button></div>
+      <div class="action-grid">
+        @for (action of actions; track action.title) {
+          <button class="action-card" (click)="openAction(action.title)">
+            <span class="action-icon" [class]="'action-icon ' + action.tone">{{ action.icon }}</span>
+            <span class="action-text"><strong>{{ action.title }}</strong><small>{{ action.sub }}</small></span><span class="card-arrow">↗</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <div class="content-grid">
+      <section class="transactions-section">
+        <div class="section-heading transaction-heading"><div><span class="eyebrow">YOUR MONEY MOVES</span><h2>Recent activity</h2></div><button class="text-button" (click)="selectTab('History')">See all <span>↗</span></button></div>
+        <div class="filter-row" aria-label="Filter transactions">
+          @for (filter of ['All', 'Sent', 'Received', 'Bills']; track filter) { <button class="filter-chip" [class.active]="activeFilter === filter" (click)="activeFilter = filter">{{ filter }}</button> }
+        </div>
+        <div class="transaction-list">
+          @for (item of filteredTransactions; track item.name) {
+            <article class="transaction-row">
+              <div class="transaction-avatar" [class]="'transaction-avatar ' + item.tone">{{ item.icon }}</div>
+              <div class="transaction-info"><strong>{{ item.name }}</strong><span>{{ item.detail }}</span></div>
+              <div class="transaction-amount" [class.credited]="item.positive"><strong>{{ item.amount }}</strong><span>{{ item.positive ? 'Credited' : 'Successful' }}</span></div>
+            </article>
+          } @empty { <div class="empty-state"><span>⌕</span><strong>No transactions found</strong><p>Try another search or filter.</p></div> }
+        </div>
+      </section>
+
+      <aside class="right-rail">
+        <section class="balance-card">
+          <div class="balance-top"><span class="eyebrow">TOTAL BALANCE</span><button class="eye-button" aria-label="Toggle balance visibility" (click)="balanceVisible = !balanceVisible">{{ balanceVisible ? '◉' : '◎' }}</button></div>
+          <div class="balance-amount">{{ balanceVisible ? '₹ 24,580' : '₹ ••,•••' }}<span>.50</span></div>
+          <div class="balance-caption"><span class="balance-dot"></span> Across 2 linked accounts</div>
+          <div class="balance-divider"></div>
+          <div class="bank-line"><span class="bank-logo">H</span><span><strong>HDFC Bank</strong><small>•••• 4291</small></span><strong class="bank-value">{{ balanceVisible ? '₹ 18,240' : '₹ ••,•••' }}</strong></div>
+          <div class="bank-line"><span class="bank-logo bank-purple">S</span><span><strong>SBI</strong><small>•••• 1086</small></span><strong class="bank-value">{{ balanceVisible ? '₹ 6,340' : '₹ •,•••' }}</strong></div>
+          <button class="add-money" (click)="openAction('Add money')"><span>＋</span> Add money</button>
+          <div class="balance-glow"></div>
+        </section>
+
+        <section class="spend-card">
+          <div class="spend-head"><div><span class="eyebrow">OCTOBER OVERVIEW</span><h3>Spending insights</h3></div><button class="more-button" aria-label="More insights">···</button></div>
+          <div class="spend-total"><strong>₹ 12,840</strong><span class="trend">↘ 8.2%</span></div>
+          <span class="spend-sub">You spent less than last month</span>
+          <div class="chart" aria-label="Weekly spending chart">
+            @for (height of [35, 52, 42, 74, 48, 62, 88, 54, 72, 46, 64, 38, 78, 57, 91, 49, 68, 42, 74, 53, 65, 39, 82, 58, 72, 46, 88, 60]; track $index) { <span [style.height.%]="height" [class.chart-highlight]="$index === 14"></span> }
+          </div>
+          <div class="chart-labels"><span>01 Oct</span><span>15 Oct</span><span>30 Oct</span></div>
+          <div class="spend-footer"><span><i></i> This month</span><button (click)="openAction('Spending insights')">View report <span>↗</span></button></div>
+        </section>
+
+        <section class="security-note"><span class="shield">✓</span><div><strong>Your account is secure</strong><p>Last checked just now</p></div><span class="secure-dot"></span></section>
+      </aside>
+    </div>
+
+    <footer class="page-footer"><span>© 2026 PhonePe. All rights reserved.</span><span><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#help">Help centre</a></span><span class="demo-label">PORTFOLIO DEMO</span></footer>
+  </main>
+
+  @if (modalAction) {
+    <div class="modal-backdrop" (click)="closeModal()">
+      <section class="demo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+        <button class="modal-close" aria-label="Close" (click)="closeModal()">×</button><div class="modal-symbol">✦</div>
+        <span class="eyebrow">PHONEPE DEMO</span><h2 id="modal-title">{{ modalAction }}</h2>
+        <p>This interaction is ready to connect to a secure payment flow. No money will move in this portfolio demo.</p>
+        <button class="modal-primary" (click)="confirmDemo()">Got it <span>→</span></button>
+      </section>
+    </div>
+  }
+  @if (toast) { <div class="toast" role="status"><span>✓</span>{{ toast }}</div> }
+</div>

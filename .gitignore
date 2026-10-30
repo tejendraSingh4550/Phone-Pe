@@ -1,0 +1,24 @@
+# Dependencies
+/node_modules/
+
+# Angular build output and caches
+/dist/
+/out-tsc/
+/.angular/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
